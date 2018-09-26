@@ -13,6 +13,7 @@ def getimpaths(datapath):
             pass
 
     return paths
+    return paths
 
 
 # m, n = np.array(Image.open(impaths[0])).shape[0:2]
