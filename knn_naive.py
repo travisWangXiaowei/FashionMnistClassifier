@@ -3,6 +3,7 @@ from numpy import *
 import heapq
 import h5py
 import pca_evaluation
+import confusion_matrix
 """KNN classifier implemented by brute-force and kd-tree
 
 This module implement a KNN classifier
@@ -180,7 +181,7 @@ class kNN(object):
 
 
 def main():
-
+    pred_array = []
     with h5py.File('./data/images_training.h5', 'r') as H:
         data = copy(H['data'])
     with h5py.File('./data/labels_training.h5', 'r') as H:
@@ -189,7 +190,6 @@ def main():
         test = copy(H['data'])
     with h5py.File('./data/labels_testing_2000.h5', 'r') as H:
         test_label = copy(H['label'])
-
     train_X = data.reshape(30000, 784)
     test_X = test.reshape(5000, 784)
     test_X = test_X[:2000]
@@ -198,13 +198,19 @@ def main():
     classifier = kNN(5,'brute-force')
     classifier.fit(redMat, label)
     count = 0
+    mycount =0
     for i in range(len(redMatTest)):
         if classifier.classify(redMatTest[i]) == test_label[i]:
-            print('yes', test_label[i])
+            print('yes', test_label[i],' mycount: ', mycount)
             count += 1
+            mycount += 1
+            pred_array.append(classifier.classify(redMatTest[i]))
         else:
             print('no')
+            mycount += 1
+            pred_array.append(classifier.classify(redMatTest[i]))
     print(count)
+    confusion_matrix.confusion_matrix_fashion(test_label, pred_array)
 
 
 main()
