@@ -2,7 +2,9 @@ from sklearn.metrics import confusion_matrix
 
 from knn_naive import *
 
+
 def confusion_matrix_fashion(act_arr, pred_arr):
+    import numpy as np
     print('act_arr', act_arr)
     print('pred_arr', pred_arr)
     cm1 = confusion_matrix(act_arr, pred_arr)
